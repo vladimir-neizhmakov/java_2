@@ -7,10 +7,14 @@ public class GameCanvas extends JPanel {
 
     MainCircles listener;
     long lastFrameTime;
+    float startGameTime = System.nanoTime() * 0.000000001f;
+
+    Background bg;
 
     GameCanvas(MainCircles listener) {
         this.listener = listener;
         lastFrameTime = System.nanoTime();
+        bg = new Background(this);
     }
 
     @Override
@@ -26,6 +30,9 @@ public class GameCanvas extends JPanel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        float gameTime = (System.nanoTime() * 0.000000001f - startGameTime);
+        if (gameTime > 51f) {gameTime=0f; startGameTime = System.nanoTime() * 0.000000001f;}
+        bg.update(gameTime);
         repaint();
     }
 
